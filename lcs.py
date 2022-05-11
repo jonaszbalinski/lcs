@@ -1,3 +1,11 @@
+# Program requires ANSICON/VT100 to show colors in terminal
+class colors:
+    RED = '\033[91m'
+    BLUE = '\033[94m'
+    GREEN = '\033[92m'
+    YELLOW = '\033[93m'
+    END = '\033[0m'
+
 def longest_common_subsequence(seq1, seq2):
     len1 = len(seq1)
     len2 = len(seq2)
@@ -12,13 +20,35 @@ def longest_common_subsequence(seq1, seq2):
                 valuesTab[i][j] = valuesTab[i-1][j-1] + 1
             else:
                 valuesTab[i][j] = max(valuesTab[i-1][j], valuesTab[i][j-1])
+            
     
+    i = len1
+    j = len2
+    subsequence = ""
 
-    return valuesTab[len1][len2]
+    while i != 0 and j != 0:
+        if valuesTab[i][j] == valuesTab[i][j-1]:
+            j -= 1
+        elif valuesTab[i][j] == valuesTab[i-1][j]:
+            i -= 1
+        else:
+            subsequence += seq1[i-1] # seq1 with i or j?
+            i -= 1
+            j -= 1
+
+    return valuesTab[len1][len2], subsequence[::-1]
 
 if __name__ == "__main__":
-    sequenceUno = "asdnoub12eu9b128dvo uibasdy8avso8 dfvqybihyavsutidgcayudcvyailsvdgo7qi6yqvlhi \
-                   bashvdouylq idwhasilo"
-    sequenceDos = "abidhbas;udoipbg2o8q6gep19783hei 1[in912r0 g79pg1h2e2jodwmqljhp97ghuon 1io2h \
-                   euphdip qnmwipd jauh12m doqnipwu9ghqpuwd"
-    print(f"LCS: {longest_common_subsequence(sequenceUno, sequenceDos)}")
+    seq1 = "asdcasbd liaubaisj dlabslhi dbvasuygvdyiasbldjabsldiyvao liyu;bjsd;u"
+    seq2 = "andsiaubs;dn'podiha9[ hduaosb dniypgh7uo;iankm ihouyvalhbk .jdlknahg6foayvukgd"
+
+    lenOfLCS, commonSeq = longest_common_subsequence(seq1, seq2)
+    print(f"Length: {lenOfLCS}\nCommon seq: {commonSeq}\n")
+
+    for i in range(len(seq1)):
+        print(seq1[i], end="")
+    print()
+
+    for i in range(len(seq2)):
+        print(seq2[i], end="")
+    print()
