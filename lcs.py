@@ -43,12 +43,82 @@ if __name__ == "__main__":
     seq2 = "andsiaubs;dn'podiha9[ hduaosb dniypgh7uo;iankm ihouyvalhbk .jdlknahg6foayvukgd"
 
     lenOfLCS, commonSeq = longest_common_subsequence(seq1, seq2)
-    print(f"Length: {lenOfLCS}\nCommon seq: {commonSeq}\n")
 
+    print("\n")
+    print("*"*100, end="\n\n")
+    print(f"Length: {colors.BLUE}{lenOfLCS}{colors.END}")
+    print(f"Common seq: {colors.GREEN}{commonSeq}{colors.END}\n")
+
+    seqIt = 0
     for i in range(len(seq1)):
-        print(seq1[i], end="")
+        if seqIt < len(commonSeq) and seq1[i] == commonSeq[seqIt]:
+            seqIt += 1
+            print(f"{colors.GREEN}{seq1[i]}{colors.END}", end="")
+        else:
+            print(f"{colors.RED}{seq1[i]}{colors.END}", end="")
     print()
 
+    seqIt = 0
     for i in range(len(seq2)):
-        print(seq2[i], end="")
-    print()
+        if seqIt < len(commonSeq) and seq2[i] == commonSeq[seqIt]:
+            seqIt += 1
+            print(f"{colors.GREEN}{seq2[i]}{colors.END}", end="")
+        else:
+            print(f"{colors.RED}{seq2[i]}{colors.END}", end="")
+
+    print("\n")
+    print("#"*100)
+    print("\n")
+
+    file1 = open("1.txt", "r")
+    file2 = open("2.txt", "r")
+
+    toTrimLines1 = file1.readlines()
+    toTrimLines2 = file2.readlines()
+
+    lines1 = []
+    lines2 = []
+
+    for i in range(len(toTrimLines1)):
+        lines1.append(toTrimLines1[i].strip())
+    
+    for i in range(len(toTrimLines2)):
+        lines2.append(toTrimLines2[i].strip())
+
+    for i in range(min(len(lines1), len(lines2))):
+        lenOfLCS, commonSeq = longest_common_subsequence(lines1[i], lines2[i])
+        isSeqEqual = (lenOfLCS == len(lines1[i]) == len(lines2[i]))
+
+        print(f"(LCS: {colors.BLUE}{lenOfLCS}{colors.END})", end=" ")
+        
+        if isSeqEqual:
+            print(f"{colors.YELLOW}{lines1[i]}{colors.END}", end="")
+        else:
+            seqIt = 0
+            for j in range(len(lines1[i])):
+                if seqIt < len(commonSeq) and lines1[i][j] == commonSeq[seqIt]:
+                    seqIt += 1
+                    print(f"{colors.GREEN}{lines1[i][j]}{colors.END}", end="")
+                else:
+                    print(f"{colors.RED}{lines1[i][j]}{colors.END}", end="")
+
+        if isSeqEqual:
+            print(" == ", end="")
+        else:
+            print(" != ", end="")
+
+        if isSeqEqual:
+            print(f"{colors.YELLOW}{lines2[i]}{colors.END}", end="")
+        else:
+            seqIt = 0
+            for j in range(len(lines2[i])):
+                if seqIt < len(commonSeq) and lines2[i][j] == commonSeq[seqIt]:
+                    seqIt += 1
+                    print(f"{colors.GREEN}{lines2[i][j]}{colors.END}", end="")
+                else:
+                    print(f"{colors.RED}{lines2[i][j]}{colors.END}", end="")
+
+        print()
+
+    print("\n")
+    print("*"*100, end="\n\n")
